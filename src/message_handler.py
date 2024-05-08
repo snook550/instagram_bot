@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from config import VERIFY_TOKEN  # Import the verify token from config.py
+from config import (
+    FLASK_VERIFY_TOKEN,
+)  # Import the verify token from config.py using the correct variable name
 
 app = Flask(__name__)
 CORS(app)
@@ -12,7 +14,7 @@ def handle_webhook():
         # Verification request from Instagram
         verify_token = request.args.get("hub.verify_token")
         challenge = request.args.get("hub.challenge")
-        if verify_token == VERIFY_TOKEN:
+        if verify_token == FLASK_VERIFY_TOKEN:
             return challenge
         return "Verification token mismatch", 403
     elif request.method == "POST":
